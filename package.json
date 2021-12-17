@@ -1,0 +1,37 @@
+{
+  "name": "dcjs-moderation",
+  "version": "0.1.0",
+  "description": "Discord Moderation Bot",
+  "main": "start.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "node .",
+    "dev": "nodemon .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\""
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "Moderation",
+    "Voice",
+    "actions"
+  ],
+  "author": "Dominik Riedig \"derdomee_\" <me@dominikriedig.de>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^8.2.0",
+    "moment": "^2.29.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.15"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  }
+}
