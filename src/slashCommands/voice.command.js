@@ -8,7 +8,8 @@ const hasChannelPerms = (member, dynChannel) => {
 };
 
 const isInChannel = (member, dynChannel) => {
-	if (member.voice?.channelId != dynChannel.voiceChannel.id) return false;
+	if (!dynChannel?.voiceChannel) return false;
+	if (member.voice?.channelId != dynChannel?.voiceChannel?.id) return false;
 	return true;
 };
 
