@@ -70,7 +70,13 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 	if (client.dynamicVoiceChannels.get(newState.channel?.id)) {
 		const dynChannel = client.dynamicVoiceChannels.get(newState.channel.id);
 		if (!dynChannel.isPrivate) {
-			await newState.member.roles.add(dynChannel.role);
+			try {
+				await newState.member.roles.add(dynChannel.role);
+			}
+			catch(err) {
+				logger.warn(err);
+				logger.warn(err.stack);
+			}
 		}
 	}
 
