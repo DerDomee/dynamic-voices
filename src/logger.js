@@ -16,6 +16,7 @@ module.exports.logger = winston.createLogger({
 		}),
 		new winston.transports.File({
 			filename: 'logs/combined.log',
+			level: 'verbose',
 			colorize: false,
 			json: false,
 			timestamp: true,
@@ -24,12 +25,23 @@ module.exports.logger = winston.createLogger({
 });
 
 if (
-	process.env.NODE_ENV !== 'production' &&
-	process.env.NODE_ENV !== 'test'
+	process.env.NODE_ENV !== 'production'
 ) {
 	module.exports.logger.add(
 		new winston.transports.Console({
 			format: winston.format.cli(),
+			level: 'debug',
+			colorize: true,
+			json: true,
+			timestamp: true,
+		}),
+	);
+}
+else {
+	module.exports.logger.add(
+		new winston.transports.Console({
+			format: winston.format.cli(),
+			level: 'info',
 			colorize: true,
 			json: true,
 			timestamp: true,
