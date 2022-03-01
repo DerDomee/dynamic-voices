@@ -1,6 +1,6 @@
 const logger = require('./logger').logger;
 const ddlib = require('./ddlib');
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, Intents } = require('discord.js');
 const { sequelizeInstance } = require('./database/dbmanager');
 const { DynamicVoiceChannel } = require('./database/models/dynamic_voice_channel.model');
 const client = new Client({

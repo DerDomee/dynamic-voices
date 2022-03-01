@@ -1,5 +1,4 @@
 const { Sequelize } = require('sequelize');
-const { logger } = require('../logger');
 
 
 let sequelize = null;
@@ -10,21 +9,21 @@ if (process.env.NODE_ENV === 'production') {
 		user: process.env.DD_DBPROD_USER ?? 'no-user-provided',
 		password: process.env.DD_DBPROD_PASS ?? 'no-password-provided',
 		database: process.env.DD_DBPROD_NAME ?? 'no-database-provided',
-		logging: (...msg) => logger.debug(msg),
+		logging: false,
 
 	});
 
 }
 else if (process.env.NODE_ENV === 'test') {
 	sequelize = new Sequelize('sqlite::memory:', {
-		logging: (...msg) => logger.debug(msg),
+		logging: false,
 	});
 }
 else {
 	sequelize = new Sequelize({
 		dialect: 'sqlite',
 		storage: './database.sqlite',
-		logging: (...msg) => logger.debug(msg),
+		logging: false,
 	});
 }
 
