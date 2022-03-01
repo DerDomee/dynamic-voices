@@ -14,8 +14,6 @@ const client = new Client({
 });
 
 const slashCommands = ddlib.loadSlashCommands();
-
-client.dynamicVoiceChannels = new Collection();
 client.sequelize = sequelizeInstance;
 
 client.on('ready', async () => {
@@ -72,7 +70,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 		}
 
 		// If old channel is now empty, delete everything
-		if (oldState.channel.members.size < 1) {
+		if (oldState.channel?.members?.size < 1) {
 			try {
 				await (await oldState.guild.roles.fetch(dynamicChannel.positive_accessrole_snowflake)).delete('Corresponding voice channel is empty');
 
