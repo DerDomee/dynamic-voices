@@ -93,8 +93,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 
 	dynamicChannel = null;
 	dynamicChannel = await DynamicVoiceChannel.findOne({ where: {
-		guild_snowflake: oldState.guild.id,
-		voice_channel_snowflake: oldState.channel?.id ?? 'NULL',
+		guild_snowflake: newState.guild.id,
+		voice_channel_snowflake: newState.channel?.id ?? 'NULL',
 	} });
 
 	if (dynamicChannel) {
