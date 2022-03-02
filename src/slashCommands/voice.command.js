@@ -318,7 +318,32 @@ module.exports = {
 
 		else if (subcommand === 'archive') {
 			await interaction.deferReply({ ephemeral: false });
-			interaction.editReply('This is not implemented yet...');
+			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
+				guild_snowflake: interaction.guild.id,
+				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
+			} });
+			if (!currentDynChannel) {
+				interaction.editReply('You are not connected to a voice channel.');
+				return;
+			}
+			const currentOwnerId = currentDynChannel.owner_member_snowflake;
+			const memberId = interaction.member.user.id;
+			if (currentOwnerId != memberId) {
+				interaction.editReply('You can only change this setting if you are the current owner!');
+				return;
+			}
+			if (currentDynChannel.should_archive) {
+				await currentDynChannel.update({
+					should_archive: false,
+				});
+				await interaction.editReply('This channel will no longer get archived when it closes!');
+			}
+			else {
+				await currentDynChannel.update({
+					should_archive: true,
+				});
+				await interaction.editReply('This channel will now get archived when it closes!');
+			}
 		}
 
 		else if (subcommand === 'close') {

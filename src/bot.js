@@ -74,7 +74,15 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 			try {
 				await (await oldState.guild.roles.fetch(dynamicChannel.positive_accessrole_snowflake)).delete('Corresponding voice channel is empty');
 
-				if(!dynamicChannel.should_archive) await (await oldState.guild.channels.fetch(dynamicChannel.text_channel_snowflake)).delete('Corresponding voice channel is empty');
+				if(dynamicChannel.should_archive) {
+					const textChannel = await oldState.guild.channels.fetch(dynamicChannel.text_channel_snowflake);
+					await textChannel.edit({
+						name: `archived-by-${(await oldState.guild.members.fetch(dynamicChannel.owner_member_snowflake)).user.username}`,
+					});
+				}
+				else {
+					await (await oldState.guild.channels.fetch(dynamicChannel.text_channel_snowflake)).delete('Corresponding voice channel is empty');
+				}
 				await oldState.channel.delete('This voice channel is empty');
 
 				await dynamicChannel.destroy();
