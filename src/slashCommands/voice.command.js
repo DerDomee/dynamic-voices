@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandUserOption, SlashCommandStringOption } = require('@discordjs/builders');
+const { MessageEmbed } = require('discord.js');
 const wait = require('util').promisify(setTimeout);
 const { logger } = require('../logger');
 const { DynamicVoiceChannel } = require('../database/models/dynamic_voice_channel.model');
@@ -55,6 +56,9 @@ module.exports = {
 		.addSubcommand(new SlashCommandSubcommandBuilder()
 			.setName('archive')
 			.setDescription('When the voice channel closes via command or channel leave, the text-channel doesn\'t get deleted.'))
+		.addSubcommand(new SlashCommandSubcommandBuilder()
+			.setName('info')
+			.setDescription('Get info about your current voice channel'))
 		.addSubcommand(new SlashCommandSubcommandBuilder()
 			.setName('close')
 			.setDescription('Close and delete your voice channel'))
@@ -344,6 +348,36 @@ module.exports = {
 				});
 				await interaction.editReply('This channel will now get archived when it closes!');
 			}
+		}
+
+		else if (subcommand === 'info') {
+			await interaction.deferReply({ ephemeral: false });
+			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
+				guild_snowflake: interaction.guild.id,
+				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
+			} });
+			if (!currentDynChannel) {
+				interaction.editReply('You are not connected to a voice channel.');
+				return;
+			}
+			const voice_channel = await interaction.guild.channels.fetch(currentDynChannel.voice_channel_snowflake);
+			const text_channel = await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake);
+			const owner = await interaction.guild.members.fetch(currentDynChannel.owner_member_snowflake);
+			const positive_accessrole = await interaction.guild.roles.fetch(currentDynChannel.positive_accessrole_snowflake);
+			const infoEmbed = new MessageEmbed()
+				.setColor('#0099ff')
+				.setTitle(`${voice_channel.name}`)
+				.setDescription('See information about this channel')
+				.addFields(
+					{ name: 'Current owner', value: `${owner.user}`, inline: true },
+					{ name: 'Attached voice channel', value: `${voice_channel}`, inline: true },
+					{ name: 'Attached text channel', value: `${text_channel}`, inline: true },
+					{ name:'Access role', value: `${positive_accessrole}`, inline: true },
+					{ name:'Channel visibility', value: `${currentDynChannel.is_channel_private ? '🔒 Private' : '🔓 Public'}`, inline: true },
+					{ name:'Option \'inviteall\'', value: `${currentDynChannel.inviteall_activated ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
+					{ name:'Option \'archive\'', value: `${currentDynChannel.should_archive ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
+				);
+			await interaction.editReply({ embeds: [infoEmbed] });
 		}
 
 		else if (subcommand === 'close') {
