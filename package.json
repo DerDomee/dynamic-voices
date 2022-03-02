@@ -4,11 +4,11 @@
   "description": "Discord Moderation Bot",
   "main": "start.js",
   "scripts": {
-    "test": "jest --coverage",
-    "start": "node .",
-    "dev": "nodemon .",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\""
+    "start": "NODE_ENV=production node .",
+    "dev": "NODE_ENV=development nodemon .",
+    "test": "NODE_ENV=test jest --coverage",
+    "lint": "NODE_ENV=test eslint .",
+    "lint:fix": "NODE_ENV=test eslint --fix \"**/*.{js,jsx,ts,tsx}\""
   },
   "keywords": [
     "Discord",
@@ -23,6 +23,9 @@
     "discord.js": "^13.1.0",
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0",
+    "sqlite3": "^4.2.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
