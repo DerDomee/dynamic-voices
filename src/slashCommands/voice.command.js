@@ -396,12 +396,20 @@ module.exports = {
 				await interaction.editReply('Only the owner can close the channel!');
 				return;
 			}
-			await wait(500);
-			await interaction.editReply('Deleting the channel now...');
-			await wait(200);
+			await interaction.editReply('Deleting the channel in 10 seconds, so you can still use `/voice archive`.');
+			await wait(10000);
 			try {
+				await currentDynChannel.reload();
 				await (await interaction.guild.channels.fetch(currentDynChannel.voice_channel_snowflake)).delete();
-				await (await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake)).delete();
+				if(currentDynChannel.should_archive) {
+					const textChannel = await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake);
+					await textChannel.edit({
+						name: `archived-by-${(await interaction.guild.members.fetch(currentDynChannel.owner_member_snowflake)).user.username}`,
+					});
+				}
+				else {
+					await (await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake)).delete('Corresponding voice channel is empty');
+				}
 				await (await interaction.guild.roles.fetch(currentDynChannel.positive_accessrole_snowflake)).delete();
 			}
 			catch (err) {
