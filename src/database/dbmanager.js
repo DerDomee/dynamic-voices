@@ -6,11 +6,12 @@ let sequelize = null;
 if (process.env.NODE_ENV === 'production') {
 	sequelize = new Sequelize({
 		dialect: 'mysql',
-		user: process.env.DD_DBPROD_USER ?? 'no-user-provided',
-		password: process.env.DD_DBPROD_PASS ?? 'no-password-provided',
-		database: process.env.DD_DBPROD_NAME ?? 'no-database-provided',
 		logging: false,
-
+		dialectOptions: {
+			user: process.env.DD_DBPROD_USER ?? 'no-user-provided',
+			password: process.env.DD_DBPROD_PASS ?? 'no-password-provided',
+			database: process.env.DD_DBPROD_NAME ?? 'no-database-provided',
+		},
 	});
 
 }
