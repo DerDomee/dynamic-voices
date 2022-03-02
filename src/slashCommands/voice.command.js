@@ -372,10 +372,10 @@ module.exports = {
 					{ name: 'Current owner', value: `${owner.user}`, inline: true },
 					{ name: 'Attached voice channel', value: `${voice_channel}`, inline: true },
 					{ name: 'Attached text channel', value: `${text_channel}`, inline: true },
-					{ name:'Access role', value: `${positive_accessrole}`, inline: true },
-					{ name:'Channel visibility', value: `${currentDynChannel.is_channel_private ? '🔒 Private' : '🔓 Public'}`, inline: true },
-					{ name:'Option \'inviteall\'', value: `${currentDynChannel.inviteall_activated ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
-					{ name:'Option \'archive\'', value: `${currentDynChannel.should_archive ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
+					{ name: 'Access role', value: `${positive_accessrole}`, inline: true },
+					{ name: 'Channel visibility', value: `${currentDynChannel.is_channel_private ? '🔒 Private' : '🔓 Public'}`, inline: true },
+					{ name: 'Option \'inviteall\'', value: `${currentDynChannel.inviteall_activated ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
+					{ name: 'Option \'archive\'', value: `${currentDynChannel.should_archive ? '✅ Activated' : '❌ Deactivated'}`, inline: true },
 				);
 			await interaction.editReply({ embeds: [infoEmbed] });
 		}
