@@ -78,6 +78,9 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 					const textChannel = await oldState.guild.channels.fetch(dynamicChannel.text_channel_snowflake);
 					await textChannel.edit({
 						name: `archived-by-${(await oldState.guild.members.fetch(dynamicChannel.owner_member_snowflake)).user.username}`,
+						permissionOverwrites: [
+							{ id: oldState.guild.roles.everyone, deny: ['VIEW_CHANNEL'] },
+							{ id: await oldState.guild.members.fetch(dynamicChannel.owner_member_snowflake), allow: ['VIEW_CHANNEL'] }],
 					});
 				}
 				else {

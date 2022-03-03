@@ -405,6 +405,9 @@ module.exports = {
 					const textChannel = await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake);
 					await textChannel.edit({
 						name: `archived-by-${(await interaction.guild.members.fetch(currentDynChannel.owner_member_snowflake)).user.username}`,
+						permissionOverwrites: [
+							{ id: interaction.guild.roles.everyone, deny: ['VIEW_CHANNEL'] },
+							{ id: await interaction.guild.members.fetch(currentDynChannel.owner_member_snowflake), allow: ['VIEW_CHANNEL'] }],
 					});
 				}
 				else {
