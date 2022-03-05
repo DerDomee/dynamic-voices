@@ -70,18 +70,26 @@ module.exports = {
 			logger.error(Error().stack);
 		}
 		const subcommand = interaction.options.getSubcommand();
+		await interaction.deferReply({ ephemeral: false });
 
-
-		if (subcommand === 'invite') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
+		let currentDynChannel;
+		currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
+			guild_snowflake: interaction.guild.id,
+			text_channel_snowflake: interaction.channel.id,
+		} });
+		if (!currentDynChannel) {
+			currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
 				guild_snowflake: interaction.guild.id,
 				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
 			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
+		}
+		if (!currentDynChannel) {
+			interaction.editReply('You are not connected to a voice channel.');
+			return;
+		}
+
+
+		if (subcommand === 'invite') {
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			const invitedMember = interaction.options.getMember('user');
@@ -108,15 +116,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'kick') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			const kickedMember = interaction.options.getMember('user');
@@ -147,15 +146,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'transfer') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			const transferredMember = interaction.options.getMember('user');
@@ -179,15 +169,7 @@ module.exports = {
 
 		else if (subcommand === 'rename') {
 			const newname = interaction.options.getString('name');
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
+
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			const editDelta = Date.now() - currentDynChannel.last_edit;
@@ -218,15 +200,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'togglevisibility') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			const editDelta = Date.now() - currentDynChannel.last_edit;
@@ -291,15 +264,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'inviteall') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			if (currentOwnerId != memberId) {
@@ -321,15 +285,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'archive') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const currentOwnerId = currentDynChannel.owner_member_snowflake;
 			const memberId = interaction.member.user.id;
 			if (currentOwnerId != memberId) {
@@ -351,15 +306,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'info') {
-			await interaction.deferReply({ ephemeral: false });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
 			const voice_channel = await interaction.guild.channels.fetch(currentDynChannel.voice_channel_snowflake);
 			const text_channel = await interaction.guild.channels.fetch(currentDynChannel.text_channel_snowflake);
 			const owner = await interaction.guild.members.fetch(currentDynChannel.owner_member_snowflake);
@@ -381,21 +327,6 @@ module.exports = {
 		}
 
 		else if (subcommand === 'close') {
-			await interaction.deferReply({ ephemeral: true });
-			const currentDynChannel = await DynamicVoiceChannel.findOne({ where: {
-				guild_snowflake: interaction.guild.id,
-				voice_channel_snowflake: interaction.member.voice?.channel?.id ?? 'NULL',
-			} });
-			if (!currentDynChannel) {
-				interaction.editReply('You are not connected to a voice channel.');
-				return;
-			}
-			const currentOwnerId = currentDynChannel.owner_member_snowflake;
-			const memberId = interaction.member.user.id;
-			if (currentOwnerId != memberId) {
-				await interaction.editReply('Only the owner can close the channel!');
-				return;
-			}
 			await interaction.editReply('Deleting the channel in 10 seconds, so you can still use `/voice archive`.');
 			await wait(10000);
 			try {
