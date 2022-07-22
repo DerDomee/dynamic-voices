@@ -1,6 +1,6 @@
-const winston = require('winston');
+import winston from 'winston';
 
-module.exports.logger = winston.createLogger({
+export const logger = winston.createLogger({
 	level: 'debug',
 	format: winston.format.combine(
 		winston.format.timestamp(),
@@ -10,16 +10,10 @@ module.exports.logger = winston.createLogger({
 		new winston.transports.File({
 			filename: 'logs/error.log',
 			level: 'error',
-			colorize: false,
-			json: false,
-			timestamp: true,
 		}),
 		new winston.transports.File({
 			filename: 'logs/combined.log',
 			level: 'verbose',
-			colorize: false,
-			json: false,
-			timestamp: true,
 		}),
 	],
 });
@@ -31,20 +25,13 @@ if (
 		new winston.transports.Console({
 			format: winston.format.cli(),
 			level: 'debug',
-			colorize: true,
-			json: true,
-			timestamp: true,
 		}),
 	);
-}
-else {
+} else {
 	module.exports.logger.add(
 		new winston.transports.Console({
 			format: winston.format.cli(),
 			level: 'info',
-			colorize: true,
-			json: true,
-			timestamp: true,
 		}),
 	);
 }
