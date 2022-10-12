@@ -144,17 +144,15 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 
 	if (dynamicChannel) {
 		// If new channel is public dynamic, give the user the corresponding role
-		if (!dynamicChannel.is_channel_private) {
-			try {
-				await newState.member.roles.add(
-					await newState.guild.roles.fetch(
-						dynamicChannel.positive_accessrole_snowflake,
-					),
-				);
-			} catch (err) {
-				logger.warn(err);
-				logger.warn(err.stack);
-			}
+		try {
+			await newState.member.roles.add(
+				await newState.guild.roles.fetch(
+					dynamicChannel.positive_accessrole_snowflake,
+				),
+			);
+		} catch (err) {
+			logger.warn(err);
+			logger.warn(err.stack);
 		}
 	}
 
