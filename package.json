@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Discord Moderation Bot",
   "private": "true",
-  "main": "dist/bot.js",
+  "main": "src/bot.ts",
   "contributors": [
     {
       "name": "Dominik Riedig",
@@ -34,10 +34,9 @@
     "typescript": "4.8.4"
   },
   "scripts": {
-    "start": "node .",
+    "start": "ts-node .",
     "dev": "nodemon --watch src -e ts ./src/bot.ts",
     "test": "NODE_ENV=test jest --coverage",
-    "lint": "eslint src/**/*{.ts,.js}",
     "tsc": "tsc"
   },
   "license": "GPLv3"
