@@ -80,7 +80,7 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 	logger.verbose(command.commandType);
 
 	if (command.commandName === 'voice') {
-		await srcCommands[1].commandExecutor(interaction);
+		await srcCommands[0].commandExecutor(interaction);
 	}
 });
 
