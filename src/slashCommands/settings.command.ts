@@ -1,56 +1,59 @@
 import {
-	SlashCommandBuilder,
-	SlashCommandSubcommandBuilder,
-	SlashCommandStringOption,
-} from '@discordjs/builders';
-import {
 	ApplicationCommandData,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	ChatInputCommandInteraction,
 } from 'discord.js';
 import {logger} from '../logger';
 import {DDCommand} from './_commands';
 
 export default {
-	commandData: new SlashCommandBuilder()
-		.setName('settings')
-		.setDescription('View and edit settings for this bot in this server')
-		.addSubcommand(
-			new SlashCommandSubcommandBuilder()
-				.setName('view')
-				.setDescription('Print out ALL current settings and their values'),
-		)
-		.addSubcommand(
-			new SlashCommandSubcommandBuilder()
-				.setName('get')
-				.setDescription(
-					'For a specific setting, print value, time of last change, the ' +
-					'user who changed it, and it\'s purpose',
-				)
-				.addStringOption(
-					new SlashCommandStringOption()
-						.setName('key')
-						.setDescription('Name of the setting-key')
-						.setRequired(true),
-				),
-		)
-		.addSubcommand(
-			new SlashCommandSubcommandBuilder()
-				.setName('set')
-				.setDescription('Set the value for a specific setting')
-				.addStringOption(
-					new SlashCommandStringOption()
-						.setName('key')
-						.setDescription('Name of the setting-key')
-						.setRequired(true),
-				)
-				.addStringOption(
-					new SlashCommandStringOption()
-						.setName('value')
-						.setDescription('Value of the new setting')
-						.setRequired(true),
-				),
-		)
-		.toJSON() as ApplicationCommandData,
+	commandData: {
+		type: ApplicationCommandType.ChatInput,
+		name: 'settings',
+		description: 'View and edit settings for this bot in this server',
+		dmPermission: false,
+		// defaultMemberPermissions: PermissionsBitField.Flags.ManageGuild,
+		options: [
+			{
+				type: ApplicationCommandOptionType.Subcommand,
+				name: 'view',
+				description: 'View ALL actively set settings in this server',
+			},
+			{
+				type: ApplicationCommandOptionType.Subcommand,
+				name: 'get',
+				description: 'View detailed information on a specific setting',
+				options: [
+					{
+						type: ApplicationCommandOptionType.String,
+						name: 'key',
+						description: 'Then name of the setting to show data of',
+						required: true,
+					},
+				],
+			},
+			{
+				type: ApplicationCommandOptionType.Subcommand,
+				name: 'set',
+				description: 'Set the value of a specific setting in this server',
+				options: [
+					{
+						type: ApplicationCommandOptionType.String,
+						name: 'key',
+						description: 'Then name of the setting to set',
+						required: true,
+					},
+					{
+						type: ApplicationCommandOptionType.String,
+						name: 'value',
+						description: 'The data to set for this setting',
+						required: true,
+					},
+				],
+			},
+		],
+	} as ApplicationCommandData,
 
 	commandExecutor: async (interaction: ChatInputCommandInteraction) => {
 		if (interaction.commandName !== 'settings') {

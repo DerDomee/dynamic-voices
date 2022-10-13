@@ -9,7 +9,7 @@ import {
 	ChannelType,
 	PermissionFlagsBits} from 'discord.js';
 import {initSequelize} from './database/dbmanager';
-import commands from './slashCommands/_commands';
+import srcCommands from './slashCommands/_commands';
 import DynamicVoiceChannel from './database/models/dynamic_voice_channel.model';
 
 dotenv.config();
@@ -40,21 +40,30 @@ client.on('ready', async () => {
 
 	sequelize.sync();
 
-	const applicationCommands = await client.application.commands.fetch();
-	commands.forEach(async (command) => {
-		const appCommand = applicationCommands.find(
-			(appCommand) => appCommand.name === command.commandData.name);
+	const appCommands = await client.application.commands.fetch();
+	/* appCommands.forEach(async (command) => {
+		await command.delete();
+	});*/
+	srcCommands.forEach(async (srcCommand) => {
+		const appCommand = appCommands.find(
+			(appCommand) => appCommand.name === srcCommand.commandData.name);
 		if (appCommand) {
-			logger.debug(
-				`From source command ${command.commandData.name} -> ${appCommand.id}`);
-			if (appCommand.equals(command.commandData)) {
-				logger.debug(`Source and api are synced`);
+			if (appCommand.equals(srcCommand.commandData)) {
+				logger.debug(
+					`SRC ${srcCommand.commandData.name} -> ${appCommand.id} -> ✅`);
 			} else {
-				logger.debug(`Source and api are not synced`);
-				await appCommand.edit(command.commandData);
+				logger.debug(
+					`SRC ${srcCommand.commandData.name} -> ${appCommand.id} -> ` +
+					`Re-Syncing -> ✅`);
+				logger.debug(JSON.stringify(
+					(srcCommand.commandData as unknown as any).options, null, 2));
+				logger.debug(JSON.stringify(appCommand.options, null, 2));
+				await appCommand.edit(srcCommand.commandData);
 			}
 		} else {
-			logger.debug(`From source command ${command.commandData.name} -> null`);
+			logger.debug(
+				`SRC ${srcCommand.commandData.name} -> null -> Creating -> ✅`);
+			await client.application.commands.create(srcCommand.commandData);
 		}
 	});
 
@@ -69,7 +78,10 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 	logger.verbose(command.commandName);
 	logger.verbose(command.commandId);
 	logger.verbose(command.commandType);
-	await interaction.reply('NIY');
+
+	if (command.commandName === 'voice') {
+		await srcCommands[1].commandExecutor(interaction);
+	}
 });
 
 client.on('voiceStateUpdate', async (oldState, newState) => {

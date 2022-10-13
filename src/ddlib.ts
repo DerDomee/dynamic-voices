@@ -29,14 +29,20 @@ export const loadSlashCommands = () => {
 	return slashCommands;
 };
 
-export const updateRegisteredCommands = (commandManager: any, oldCommands: any, loadedCommands: any) => {
+export const updateRegisteredCommands = (
+	commandManager: any, oldCommands: any, loadedCommands: any,
+) => {
 	loadedCommands.forEach(async (element: any) => {
-		const oldCommand = findCommandFromArray(oldCommands, element.commandData.name);
+		const oldCommand = findCommandFromArray(
+			oldCommands, element.commandData.name);
 		if (oldCommand === null) {
-			logger.verbose(`[SC ${element.commandData.name}] Not previously registered. Registering as new command.`);
+			logger.verbose(
+				`[SC ${element.commandData.name}] Not previously registered. ` +
+				`Registering as new command.`);
 			await commandManager.create(element.commandData);
 		} else {
-			logger.debug(`[SC ${element.commandData.name}] Found registered command.`);
+			logger.debug(
+				`[SC ${element.commandData.name}] Found registered command.`);
 			await commandManager.edit(oldCommand.id, element.commandData);
 		}
 	});

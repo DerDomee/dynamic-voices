@@ -1,5 +1,5 @@
 import {ApplicationCommandData, Interaction} from 'discord.js';
-import settingsCommand from './settings.command';
+// import settingsCommand from './settings.command';
 import voiceCommand from './voice.command';
 
 export interface DDCommand {
@@ -9,6 +9,5 @@ export interface DDCommand {
 
 
 export default [
-	settingsCommand,
 	voiceCommand,
 ] as DDCommand[];
