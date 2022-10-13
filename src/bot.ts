@@ -41,9 +41,9 @@ client.on('ready', async () => {
 	sequelize.sync();
 
 	const appCommands = await client.application.commands.fetch();
-	/* appCommands.forEach(async (command) => {
+	appCommands.forEach(async (command) => {
 		await command.delete();
-	});*/
+	});
 	srcCommands.forEach(async (srcCommand) => {
 		const appCommand = appCommands.find(
 			(appCommand) => appCommand.name === srcCommand.commandData.name);
