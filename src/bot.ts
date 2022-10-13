@@ -41,28 +41,23 @@ client.on('ready', async () => {
 	sequelize.sync();
 
 	const appCommands = await client.application.commands.fetch();
-	appCommands.forEach(async (command) => {
-		await command.delete();
-	});
 	srcCommands.forEach(async (srcCommand) => {
 		const appCommand = appCommands.find(
 			(appCommand) => appCommand.name === srcCommand.commandData.name);
 		if (appCommand) {
 			if (appCommand.equals(srcCommand.commandData)) {
 				logger.debug(
-					`SRC ${srcCommand.commandData.name} -> ${appCommand.id} -> ✅`);
+					`SRC ${srcCommand.commandData.name} is ${appCommand.id} -> no ` +
+					`changes needed -> ✅`);
 			} else {
 				logger.debug(
-					`SRC ${srcCommand.commandData.name} -> ${appCommand.id} -> ` +
+					`SRC ${srcCommand.commandData.name} is ${appCommand.id} -> ` +
 					`Re-Syncing -> ✅`);
-				logger.debug(JSON.stringify(
-					(srcCommand.commandData as unknown as any).options, null, 2));
-				logger.debug(JSON.stringify(appCommand.options, null, 2));
 				await appCommand.edit(srcCommand.commandData);
 			}
 		} else {
 			logger.debug(
-				`SRC ${srcCommand.commandData.name} -> null -> Creating -> ✅`);
+				`SRC ${srcCommand.commandData.name} is nonexistant -> Creating -> ✅`);
 			await client.application.commands.create(srcCommand.commandData);
 		}
 	});
