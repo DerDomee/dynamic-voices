@@ -72,16 +72,11 @@ client.on('ready', async () => {
 
 client.on('interactionCreate', async (interaction: Interaction) => {
 	if (interaction.type !== InteractionType.ApplicationCommand) return;
-	const command: CommandInteraction = interaction;
 
-	logger.verbose(command);
-	logger.verbose(command.commandName);
-	logger.verbose(command.commandId);
-	logger.verbose(command.commandType);
+	const command = srcCommands.find(
+		(el) => el.commandData.name === interaction.commandName);
 
-	if (command.commandName === 'voice') {
-		await srcCommands[0].commandExecutor(interaction);
-	}
+	await command?.commandExecutor(interaction);
 });
 
 client.on('voiceStateUpdate', async (oldState, newState) => {
