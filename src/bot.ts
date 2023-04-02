@@ -5,7 +5,6 @@ import {
 	InteractionType,
 	GatewayIntentBits,
 	Interaction,
-	CommandInteraction,
 	ChannelType,
 	PermissionFlagsBits} from 'discord.js';
 import {initSequelize} from './database/dbmanager';
