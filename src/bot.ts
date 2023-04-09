@@ -107,6 +107,12 @@ const createPublicDynamicChannel = async (state: VoiceState) => {
 			type: ChannelType.GuildVoice,
 		});
 		await newvc.lockPermissions();
+		await newvc.permissionOverwrites.edit(
+			client.user,
+			{
+				ViewChannel: true,
+			},
+		);
 
 		const newtc = await state.guild.channels.create({
 			name: `Public by ${state.member.user.username}`,
@@ -114,6 +120,12 @@ const createPublicDynamicChannel = async (state: VoiceState) => {
 			type: ChannelType.GuildText,
 		});
 		await newtc.lockPermissions();
+		await newtc.permissionOverwrites.edit(
+			client.user,
+			{
+				ViewChannel: true,
+			},
+		);
 		await newtc.permissionOverwrites.edit(
 			state.guild.roles.everyone,
 			{
@@ -178,6 +190,12 @@ const createPrivateDynamicChannel = async (state: VoiceState) => {
 		});
 		await newvc.lockPermissions();
 		await newvc.permissionOverwrites.edit(
+			client.user,
+			{
+				ViewChannel: true,
+			},
+		);
+		await newvc.permissionOverwrites.edit(
 			state.guild.roles.everyone,
 			{
 				ViewChannel: false,
@@ -198,6 +216,12 @@ const createPrivateDynamicChannel = async (state: VoiceState) => {
 			parent: channelParent,
 		});
 		await newtc.lockPermissions();
+		await newtc.permissionOverwrites.edit(
+			client.user,
+			{
+				ViewChannel: true,
+			},
+		);
 		await newtc.permissionOverwrites.edit(
 			state.guild.roles.everyone,
 			{
