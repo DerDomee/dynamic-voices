@@ -107,16 +107,26 @@ const createPublicDynamicChannel = async (state: VoiceState) => {
 			parent: channelParent,
 			type: ChannelType.GuildVoice,
 		});
+		await newvc.lockPermissions();
 
 		const newtc = await state.guild.channels.create({
 			name: `Public by ${state.member.user.username}`,
 			parent: channelParent,
 			type: ChannelType.GuildText,
-			permissionOverwrites: [
-				{id: state.guild.roles.everyone, deny: ['ViewChannel']},
-				{id: newrole.id, allow: ['ViewChannel']},
-			],
 		});
+		await newtc.lockPermissions();
+		await newtc.permissionOverwrites.edit(
+			state.guild.roles.everyone,
+			{
+				ViewChannel: false,
+			},
+		);
+		await newtc.permissionOverwrites.edit(
+			newrole,
+			{
+				ViewChannel: true,
+			},
+		);
 
 		newDynamicChannel = await DynamicVoiceChannel.create({
 			guild_snowflake: state.guild.id,
@@ -166,17 +176,20 @@ const createPrivateDynamicChannel = async (state: VoiceState) => {
 			name: `Private by ${state.member.user.username}`,
 			type: ChannelType.GuildVoice,
 			parent: channelParent,
-			permissionOverwrites: [
-				{
-					id: state.guild.roles.everyone,
-					deny: [PermissionFlagsBits.ViewChannel],
-				},
-				{
-					id: newrole,
-					allow: [PermissionFlagsBits.ViewChannel],
-				},
-			],
 		});
+		await newvc.lockPermissions();
+		await newvc.permissionOverwrites.edit(
+			state.guild.roles.everyone,
+			{
+				ViewChannel: false,
+			},
+		);
+		await newvc.permissionOverwrites.edit(
+			newrole,
+			{
+				ViewChannel: true,
+			},
+		);
 
 		// The new text channel, it is only visible with
 		// the role you get with an invite
@@ -184,14 +197,20 @@ const createPrivateDynamicChannel = async (state: VoiceState) => {
 			name: `Private by ${state.member.user.username}`,
 			type: ChannelType.GuildText,
 			parent: channelParent,
-			permissionOverwrites: [
-				{
-					id: state.guild.roles.everyone,
-					deny: [PermissionFlagsBits.ViewChannel],
-				},
-				{id: newrole, allow: [PermissionFlagsBits.ViewChannel]},
-			],
 		});
+		await newtc.lockPermissions();
+		await newtc.permissionOverwrites.edit(
+			state.guild.roles.everyone,
+			{
+				ViewChannel: false,
+			},
+		);
+		await newtc.permissionOverwrites.edit(
+			newrole,
+			{
+				ViewChannel: true,
+			},
+		);
 
 		newDynamicChannel = await DynamicVoiceChannel.create({
 			guild_snowflake: state.guild.id,
