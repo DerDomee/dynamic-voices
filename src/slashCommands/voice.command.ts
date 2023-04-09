@@ -301,8 +301,8 @@ export default {
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Public by ${interaction.member.user.username}`,
 						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['VIEW_CHANNEL']},
-							{id: positiveAccessrole, allow: ['VIEW_CHANNEL']},
+							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
+							{id: positiveAccessrole, allow: ['ViewChannel']},
 						],
 					});
 					await positiveAccessrole.setName(
@@ -320,8 +320,8 @@ export default {
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Private by ${interaction.member.user.username}`,
 						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['VIEW_CHANNEL']},
-							{id: positiveAccessrole, allow: ['VIEW_CHANNEL']},
+							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
+							{id: positiveAccessrole, allow: ['ViewChannel']},
 						],
 					});
 					await (await interaction.guild.channels.fetch(
@@ -329,8 +329,8 @@ export default {
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Private by ${interaction.member.user.username}`,
 						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['VIEW_CHANNEL']},
-							{id: positiveAccessrole, allow: ['VIEW_CHANNEL']},
+							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
+							{id: positiveAccessrole, allow: ['ViewChannel']},
 						],
 					});
 					await positiveAccessrole.setName(
