@@ -289,22 +289,42 @@ export default {
 			try {
 				const positiveAccessrole = await interaction.guild.roles.fetch(
 					currentDynChannel.positive_accessrole_snowflake);
+				const voiceChannel = await interaction.guild.channels.fetch(
+					currentDynChannel.voice_channel_snowflake);
+				const textChannel = await interaction.guild.channels.fetch(
+					currentDynChannel.text_channel_snowflake);
 				if (currentDynChannel.is_channel_private) {
-					await (await interaction.guild.channels.fetch(
-						currentDynChannel.voice_channel_snowflake)).edit({
+					await voiceChannel.edit({
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Public by ${interaction.member.user.username}`,
-						permissionOverwrites: [],
 					});
-					await (await interaction.guild.channels.fetch(
-						currentDynChannel.text_channel_snowflake)).edit({
+					await voiceChannel.lockPermissions();
+					await voiceChannel.permissionOverwrites.edit(
+						interaction.client.user,
+						{
+							ViewChannel: true,
+						},
+					);
+					await textChannel.edit({
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Public by ${interaction.member.user.username}`,
-						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
-							{id: positiveAccessrole, allow: ['ViewChannel']},
-						],
 					});
+					await textChannel.lockPermissions();
+					await textChannel.permissionOverwrites.edit(
+						interaction.client.user,
+						{
+							ViewChannel: true,
+						});
+					await textChannel.permissionOverwrites.edit(
+						interaction.guild.roles.everyone,
+						{
+							ViewChannel: false,
+						});
+					await textChannel.permissionOverwrites.edit(
+						positiveAccessrole,
+						{
+							ViewChannel: true,
+						});
 					await positiveAccessrole.setName(
 						currentDynChannel.is_channel_renamed ? positiveAccessrole.name :
 							`Public by ${interaction.member.user.username}`);
@@ -315,24 +335,46 @@ export default {
 					await interaction.editReply(
 						'Successfully set this channels visibility to public.');
 				} else {
-					await (await interaction.guild.channels.fetch(
-						currentDynChannel.voice_channel_snowflake)).edit({
+					await voiceChannel.edit({
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Private by ${interaction.member.user.username}`,
-						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
-							{id: positiveAccessrole, allow: ['ViewChannel']},
-						],
 					});
-					await (await interaction.guild.channels.fetch(
-						currentDynChannel.text_channel_snowflake)).edit({
+					voiceChannel.lockPermissions();
+					await voiceChannel.permissionOverwrites.edit(
+						interaction.client.user,
+						{
+							ViewChannel: true,
+						});
+					await voiceChannel.permissionOverwrites.edit(
+						interaction.guild.roles.everyone,
+						{
+							ViewChannel: false,
+						});
+					await voiceChannel.permissionOverwrites.edit(
+						positiveAccessrole,
+						{
+							ViewChannel: true,
+						});
+					await textChannel.edit({
 						name: currentDynChannel.is_channel_renamed ? undefined :
 							`Private by ${interaction.member.user.username}`,
-						permissionOverwrites: [
-							{id: interaction.guild.roles.everyone, deny: ['ViewChannel']},
-							{id: positiveAccessrole, allow: ['ViewChannel']},
-						],
 					});
+					textChannel.lockPermissions();
+					await textChannel.permissionOverwrites.edit(
+						interaction.client.user,
+						{
+							ViewChannel: true,
+						});
+					await textChannel.permissionOverwrites.edit(
+						interaction.guild.roles.everyone,
+						{
+							ViewChannel: false,
+						});
+					await textChannel.permissionOverwrites.edit(
+						positiveAccessrole,
+						{
+							ViewChannel: true,
+						});
 					await positiveAccessrole.setName(
 						currentDynChannel.is_channel_renamed ? positiveAccessrole.name :
 							`Private by ${interaction.member.user.username}`);
@@ -347,6 +389,9 @@ export default {
 			} catch (err) {
 				logger.warn(err);
 				logger.warn(err.stack);
+				interaction.editReply(
+					'Unable to change channel visibility. ||Please report this to a ' +
+					'moderator if this keeps happening.||');
 			}
 			return;
 		} else if (subcommand === 'inviteall') {
