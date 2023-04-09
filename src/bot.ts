@@ -6,8 +6,7 @@ import {
 	GatewayIntentBits,
 	Interaction,
 	VoiceState,
-	ChannelType,
-	PermissionFlagsBits} from 'discord.js';
+	ChannelType} from 'discord.js';
 import {initSequelize} from './database/dbmanager';
 import srcCommands from './slashCommands/_commands';
 import DynamicVoiceChannel from './database/models/dynamic_voice_channel.model';
