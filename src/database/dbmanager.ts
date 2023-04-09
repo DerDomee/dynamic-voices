@@ -1,10 +1,11 @@
 import {Sequelize} from 'sequelize-typescript';
 
 import DynamicVoiceChannel from './models/dynamic_voice_channel.model';
+import ServerSetting from './models/server_setting.model';
 
 export const initSequelize = (): Sequelize => {
 	let sequelizeInstance = undefined;
-	const models = [DynamicVoiceChannel];
+	const models = [DynamicVoiceChannel, ServerSetting];
 
 	if (process.env.NODE_ENV === 'production') {
 		sequelizeInstance = new Sequelize({
