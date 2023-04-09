@@ -233,7 +233,7 @@ const createPrivateDynamicChannel = async (state: VoiceState) => {
  */
 client.on('voiceChannelJoin', async (
 	state: VoiceState,
-	dynamicChannel: DynamicVoiceChannel | null,
+	dynamicChannel?: DynamicVoiceChannel,
 ) => {
 	if (dynamicChannel) {
 		client.emit('dynamicChannelJoin', state, dynamicChannel);
@@ -329,7 +329,7 @@ client.on('dynamicChannelLeave', async (
  */
 client.on('voiceChannelLeave', async (
 	state: VoiceState,
-	dynamicChannel: DynamicVoiceChannel | null,
+	dynamicChannel?: DynamicVoiceChannel,
 ) => {
 	if (dynamicChannel) client.emit('dynamicChannelLeave', state, dynamicChannel);
 });
