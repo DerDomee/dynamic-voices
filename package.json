@@ -1,13 +1,13 @@
 {
-  "name": "dc-dynvoice",
-  "version": "0.1.0",
-  "description": "Discord Moderation Bot",
+  "name": "dynamic-voices",
+  "version": "0.2.0",
+  "description": "Discord bot focused around creating self-managed dynamic voice channels",
   "private": "true",
   "main": "src/bot.ts",
   "contributors": [
     {
       "name": "Dominik Riedig",
-      "email": "dc-dynvoice@dominikriedig.de",
+      "email": "dc-dynamic-voices@dominikriedig.de",
       "url": "https://dominikriedig.de"
     }
   ],
