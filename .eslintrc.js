@@ -16,30 +16,30 @@ module.exports = {
 		'@typescript-eslint',
 	],
 	'rules': {
-		'comma-dangle': ['error', 'always-multiline'
+		'comma-dangle': ['error', 'always-multiline',
 		],
 		'comma-spacing': ['error',
 			{
-				before: false, after: true
-			}
+				before: false, after: true,
+			},
 		],
-		'comma-style': ['error', 'last'
+		'comma-style': ['error', 'last',
 		],
-		'indent': ['error', 'tab'
+		'indent': ['error', 'tab',
 		],
 		'new-cap': ['error',
 			{
-				properties: false
-			}
+				properties: false,
+			},
 		],
 		'no-tabs': 0,
 		'no-mixed-spaces-and-tabs': [
-			2, 'smart-tabs'
+			2, 'smart-tabs',
 		],
 		'new-cap': ['error',
 			{
 				'capIsNew': false,
-			}
+			},
 		],
 	},
 };
