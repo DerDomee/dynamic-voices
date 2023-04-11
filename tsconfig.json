@@ -1,16 +1,15 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "ES2022",
 		"esModuleInterop": true,
-		"target": "es6",
+		"target": "es2021",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"lib": [
-			"ES2021",
-			"ESNext",
+			"ES2022",
 		],
 		"outDir": "dist",
 		"baseUrl": ".",
