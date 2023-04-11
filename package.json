@@ -4,9 +4,6 @@
   "description": "Discord bot focused around creating self-managed dynamic voice channels",
   "private": "true",
   "main": "dist/bot.js",
-  "engines": {
-    "node": ">=19.0.0"
-  },
   "contributors": [
     {
       "name": "Dominik Riedig",
