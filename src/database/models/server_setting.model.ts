@@ -2,7 +2,6 @@ import {
 	AllowNull,
 	Column,
 	DataType,
-	Default,
 	Model,
 	PrimaryKey,
 	Table} from 'sequelize-typescript';
