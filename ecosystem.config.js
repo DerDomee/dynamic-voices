@@ -1,7 +1,7 @@
 module.exports = {
 	apps: [
 		{
-			name: 'dcjs-moderation',
+			name: 'dynamic-voices',
 			script: 'npm start',
 			error_file: 'logs/error.log',
 			out_file: 'logs/out.log',
