@@ -31,17 +31,6 @@ jobs:
           ls -lah .
           ls -lah ..
 
-      - name: Deploy files to production server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
-          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
-          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
-          ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
-          remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
-          sftpArgs: '-o ConnectTimeout=5'
-          sftp_only: true
-
       - name: Restart the production bot instance
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -54,3 +43,15 @@ jobs:
             whoami;
             touch testfile
             Thu Apr 20 20:35:07 UTC 2023 > testfile
+
+      - name: Deploy files to production server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
+          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
+          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
+          ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
+          local_path: './'
+          remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
+          sftpArgs: '-o ConnectTimeout=5'
+          sftp_only: true
