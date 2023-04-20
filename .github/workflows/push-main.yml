@@ -1,0 +1,51 @@
+# This workflow is run on a push on branch main
+#
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: bot-production
+    steps:
+      - name: Checkout current commit
+        uses: actions/checkout@v3
+
+      - name: Use Node.JS 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Install npm build dependencies
+        run: npm ci
+
+      - name: Build the bot application
+        run: npm run build
+
+      - name: Remove unnecessary files for deployment
+        run: rm -rf ./src ./node_modules ./tsconfig.json ./.env.preset ./.github ./logs ./database.sqlite
+
+      - name: Deploy files to production server
+        uses: wlixcc/SFTP-Deploy-Action@da88a4dbe95286266bbac3c0b2b8284048d20c8f
+        with:
+          server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
+          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
+          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
+          ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
+          remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
+
+      - name: Restart the production bot instance
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
+          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
+          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
+          key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
+          script: |
+            echo "Hello, World!";
+            whoami;
+            touch testfile
+            Thu Apr 20 20:35:07 UTC 2023 > testfile
