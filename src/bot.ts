@@ -40,6 +40,19 @@ client.on('ready', async () => {
 	sequelize.sync();
 
 	const appCommands = await client.application.commands.fetch();
+	appCommands.forEach(async (appCommand) => {
+		const srcCommand = srcCommands.find(
+			(srcCommand) => appCommand.name === srcCommand.commandData.name,
+		);
+
+		if (!srcCommand) {
+			logger.debug(
+				`APP ${appCommand.name} is ${appCommand.id} -> not found anymore in ` +
+				`source -> deleting -> ✅`);
+
+			await appCommand.delete();
+		}
+	});
 	srcCommands.forEach(async (srcCommand) => {
 		const appCommand = appCommands.find(
 			(appCommand) => appCommand.name === srcCommand.commandData.name);
