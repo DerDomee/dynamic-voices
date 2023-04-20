@@ -36,6 +36,8 @@ jobs:
           username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
           ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
           remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
+          sftpArgs: '-o ConnectTimeout=5'
+          sftp_only: true
 
       - name: Restart the production bot instance
         uses: appleboy/ssh-action@v0.1.10
