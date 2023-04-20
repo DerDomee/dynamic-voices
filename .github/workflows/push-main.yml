@@ -51,3 +51,4 @@ jobs:
           script: |
             cd ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
             npm ci --omit=dev
+            pm2 restart ./ecosystem.config.js --env production
