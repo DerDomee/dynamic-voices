@@ -27,18 +27,21 @@ const client = new Client({
 const sequelize = initSequelize();
 
 client.on('ready', async () => {
+	logger.info('Connecting to the database...');
 	try {
 		await sequelize.authenticate();
-		logger.info('Database connection established');
+		logger.info('Database connection established!');
 	} catch (err) {
 		logger.error(err);
 		logger.error(err.stack);
 		process.exit(1);
 	}
-	logger.info('Sync database models via sequelize (safe sync)');
 
+	logger.info('Sync database models via sequelize (safe sync)...');
 	sequelize.sync();
+	logger.info('Sync successfull!');
 
+	logger.info('Updating command registry via discord API...');
 	const appCommands = await client.application.commands.fetch();
 	appCommands.forEach(async (appCommand) => {
 		const srcCommand = srcCommands.find(
@@ -73,6 +76,7 @@ client.on('ready', async () => {
 			await client.application.commands.create(srcCommand.commandData);
 		}
 	});
+	logger.info('Command registry updated successfully!');
 
 	logger.info(`Logged in as ${client.user.tag}`);
 });
