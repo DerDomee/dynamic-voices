@@ -49,7 +49,5 @@ jobs:
           username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
           key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
           script: |
-            echo "Hello, World!";
-            whoami;
-            touch testfile
-            date -u > testfile
+            cd ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
+            npm ci --omit=dev
