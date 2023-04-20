@@ -42,7 +42,7 @@ jobs:
             echo "Hello, World!";
             whoami;
             touch testfile
-            Thu Apr 20 20:35:07 UTC 2023 > testfile
+            date -u > testfile
 
       - name: Deploy files to production server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
