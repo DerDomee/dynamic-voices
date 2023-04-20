@@ -27,9 +27,19 @@ jobs:
 
       - name: Remove unnecessary files for deployment
         run: |
-          rm -rf ./src ./node_modules ./tsconfig.json ./.env.preset ./.github ./logs ./database.sqlite
-          ls -lah .
-          ls -lah ..
+          rm -rf ./src ./node_modules ./tsconfig.json ./.env.preset ./.git ./.github ./logs ./database.sqlite
+
+      - name: Deploy files to production server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
+          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
+          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
+          ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
+          local_path: './'
+          remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
+          sftpArgs: '-o ConnectTimeout=5'
+          sftp_only: true
 
       - name: Restart the production bot instance
         uses: appleboy/ssh-action@v0.1.10
@@ -43,15 +53,3 @@ jobs:
             whoami;
             touch testfile
             date -u > testfile
-
-      - name: Deploy files to production server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
-          port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
-          username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
-          ssh_private_key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
-          local_path: './'
-          remote_path: ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
-          sftpArgs: '-o ConnectTimeout=5'
-          sftp_only: true
