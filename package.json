@@ -16,7 +16,7 @@
     "dotenv": "16.0.3",
     "moment": "2.29.4",
     "mysql2": "3.3.4",
-    "sequelize": "6.32.0",
+    "sequelize": "6.32.1",
     "sequelize-typescript": "2.1.5",
     "winston": "3.9.0"
   },
