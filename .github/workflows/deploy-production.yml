@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: bot-production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
     steps:
       - name: Checkout current commit
         uses: actions/checkout@v3
