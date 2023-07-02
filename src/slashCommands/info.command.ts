@@ -35,9 +35,7 @@ export default {
 		const infoEmbed = new EmbedBuilder()
 			.setColor([1, 1, 1])
 			.setTitle('Dynamic Voices bot information')
-			.addFields(
-				{name: 'Test', value: 'testvalue', inline: true},
-			)
+			.addFields({name: 'Test', value: 'testvalue', inline: true})
 			.toJSON();
 
 		await interaction.editReply({embeds: [infoEmbed]});
