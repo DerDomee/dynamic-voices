@@ -33,7 +33,7 @@ jobs:
           rm -rf ./src ./node_modules ./tsconfig.json ./.env.preset ./.git ./.github ./logs ./database.sqlite
 
       - name: Deploy files to production server
-        uses: wlixcc/SFTP-Deploy-Action@da88a4dbe95286266bbac3c0b2b8284048d20c8f # pin@v1.2.4
+        uses: wlixcc/SFTP-Deploy-Action@89e97d73f90e3e3eb89432ecbe58a00be1cd87f2 # pin@v1.2.4
         with:
           server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
           port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
