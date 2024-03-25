@@ -18,7 +18,7 @@
     "mysql2": "3.9.3",
     "sequelize": "6.37.1",
     "sequelize-typescript": "2.1.6",
-    "winston": "3.12.0"
+    "winston": "3.13.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.4.0",
