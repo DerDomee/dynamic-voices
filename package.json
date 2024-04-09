@@ -15,7 +15,7 @@
     "discord.js": "14.14.1",
     "dotenv": "16.4.5",
     "moment": "2.30.1",
-    "mysql2": "3.9.3",
+    "mysql2": "3.9.4",
     "sequelize": "6.37.2",
     "sequelize-typescript": "2.1.6",
     "winston": "3.13.0"
