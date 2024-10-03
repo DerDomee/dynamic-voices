@@ -14,7 +14,7 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: Checkout current commit
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017 # pin@v3
+        uses: actions/checkout@6b42224f41ee5dfe5395e27c8b2746f1f9955030 # pin@v3
 
       - name: Use Node.JS 18
         uses: actions/setup-node@c2ac33f2c62f978d6c944d9648125a294e56dc0b # pin@v3
