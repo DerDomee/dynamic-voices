@@ -3,18 +3,21 @@
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: bot-production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
     steps:
       - name: Checkout current commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017 # pin@v3
 
       - name: Use Node.JS 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@c2ac33f2c62f978d6c944d9648125a294e56dc0b # pin@v3
         with:
           node-version: 18
           cache: "npm"
@@ -30,7 +33,7 @@ jobs:
           rm -rf ./src ./node_modules ./tsconfig.json ./.env.preset ./.git ./.github ./logs ./database.sqlite
 
       - name: Deploy files to production server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: wlixcc/SFTP-Deploy-Action@da88a4dbe95286266bbac3c0b2b8284048d20c8f # pin@v1.2.4
         with:
           server: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
           port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
@@ -42,13 +45,15 @@ jobs:
           sftp_only: true
 
       - name: Restart the production bot instance
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@551964ebda1034f0b5449d74db25c42e371ca1f7 # pin@v1.0.0
         with:
           host: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
           port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
           username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
           key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
             npm ci --omit=dev
             pm2 restart ./ecosystem.config.js --env production
