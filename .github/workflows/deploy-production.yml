@@ -52,6 +52,8 @@ jobs:
           username: ${{secrets.PRODUCTION_DEPLOY_SSH_USERNAME}}
           key: ${{secrets.PRODUCTION_DEPLOY_SSH_KEY}}
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd ${{secrets.PRODUCTION_DEPLOY_SSH_REMOTE_PATH}}
             npm ci --omit=dev
             pm2 restart ./ecosystem.config.js --env production
