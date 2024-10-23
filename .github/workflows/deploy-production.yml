@@ -45,7 +45,7 @@ jobs:
           sftp_only: true
 
       - name: Restart the production bot instance
-        uses: appleboy/ssh-action@551964ebda1034f0b5449d74db25c42e371ca1f7 # pin@v1.0.0
+        uses: appleboy/ssh-action@8b84eaec3a216f1a0a6f56e15a7ab08f9975236a # pin@v1.0.0
         with:
           host: ${{secrets.PRODUCTION_DEPLOY_SSH_HOST}}
           port: ${{secrets.PRODUCTION_DEPLOY_SSH_PORT}}
