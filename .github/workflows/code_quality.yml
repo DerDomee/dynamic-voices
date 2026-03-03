@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@6b42224f41ee5dfe5395e27c8b2746f1f9955030 # pin@v3
       - name: Use Node.js 18
-        uses: actions/setup-node@aca7b64a59c0063db8564e0ffdadd3887f1cbae5 # pin@v3
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # pin@v3
         with:
           node-version: 18
           cache: "npm"
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@6b42224f41ee5dfe5395e27c8b2746f1f9955030 # pin@v3
       - name: Use Node.js 18
-        uses: actions/setup-node@aca7b64a59c0063db8564e0ffdadd3887f1cbae5 # pin@v3
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # pin@v3
         with:
           node-version: 18
           cache: "npm"
