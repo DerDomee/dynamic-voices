@@ -19,7 +19,7 @@ jobs:
       - name: Use Node.JS 18
         uses: actions/setup-node@aca7b64a59c0063db8564e0ffdadd3887f1cbae5 # pin@v3
         with:
-          node-version: 18
+          node-version: 24
           cache: "npm"
 
       - name: Install npm build dependencies

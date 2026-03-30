@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js 18
         uses: actions/setup-node@aca7b64a59c0063db8564e0ffdadd3887f1cbae5 # pin@v3
         with:
-          node-version: 18
+          node-version: 24
           cache: "npm"
       - run: npm ci
       - run: npm run lint
@@ -30,7 +30,7 @@ jobs:
       - name: Use Node.js 18
         uses: actions/setup-node@aca7b64a59c0063db8564e0ffdadd3887f1cbae5 # pin@v3
         with:
-          node-version: 18
+          node-version: 24
           cache: "npm"
       - run: npm ci
       - run: npm run build
