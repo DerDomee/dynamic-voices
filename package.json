@@ -26,7 +26,7 @@
     "eslint": "8.57.1",
     "eslint-config-google": "0.14.0",
     "jest": "30.3.0",
-    "nodemon": "3.1.7",
+    "nodemon": "3.1.14",
     "ts-jest": "29.4.6",
     "sqlite3": "5.1.7",
     "ts-loader": "9.5.1",
